@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "GraphLab — Graph Coloring Simulator"
+description = "An interactive, educational graph-coloring simulator for college-level computer science students. Create and color graphs, explore algorithm steps, compare approaches, and learn graph theory with working examples."
+version = "1.0.0"
+id = "artifacts/graphlab"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21281
+
+[services.development]
+run = "pnpm --filter @workspace/graphlab run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/graphlab", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/graphlab/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21281"
+BASE_PATH = "/"
